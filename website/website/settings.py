@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from website import secretsettings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4kf#&g4oo=vo8%juah+bdrut_()77&-sxtcn)%m1z^vz$j)1%k'
+# The initial secret key has been changed ...
+SECRET_KEY = secretsettings.secret_k
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'crispy.pythonanywhere.com']
+ALLOWED_HOSTS = [u'crispy.pythonanywhere.com',u'127.0.0.1',u'localhost']
 
 
 # Application definition
@@ -125,3 +127,6 @@ MEDIA_ROOT = u'/home/crispy/website/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = u'/home/crispy/website/static'
 STATIC_URL = '/static/'
+
+# my STATICFILES_DIRS in an attempt to get 'static' to work on local machine + pythonanywhere
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
