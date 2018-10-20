@@ -5,9 +5,10 @@ Date October 2018
 @author: Christian Pruvost
 @note: Initial draft
 '''
-
+########## IMPORTING LIBRARIES ############
 import codecs
 import datetime
+import time
 import gzip
 import hashlib # for md5 digest
 #import operator
@@ -15,8 +16,11 @@ import os
 import platform # used in creation date detection
 #import re
 import urllib.request # to fetch URL 
+import urllib.parse # to encode/decode url
 #import httplib
 #import xml.etree.ElementTree as ET
+#CRISPYAPPSPOT = "http://crispy-snippets.appspot.com/datafeed"
+CRISPYAPPSPOT = "http://localhost:8080/datafeed"
 
 urlList = [
              'https://www.economist.com/britain/rss.xml|The Economist (Britain)',
@@ -85,9 +89,30 @@ def fetchURLasString(url):
 
 # main processor
 def processFile(thefile,federationName):
-    #hello
+    #TODO - Do something with it (coming soon...)
     print("Processing:",thefile)
 
+# generate querystring for the data feed
+def getSignedURL(source):
+    #msg = "src=" + src + "&s=" + stamp + secretToHide;
+    
+    # The time.time() function returns the number of seconds since the epoch, as seconds. 
+    # Note that the "epoch" is defined as the start of January 1st, 1970 in UTC. 
+    # So the epoch is defined in terms of UTC. [by squiguy, StackOverflow] 
+    #utcmilliseconds = int(datetime.datetime.utcnow().timestamp()*1000)
+
+    utcmilliseconds = int(time.time()*1000) # UTC time in milliseconds
+    
+    qstring = "src=" + str(urllib.parse.quote_plus(source,encoding="UTF-8")) + "&s="  + str(utcmilliseconds)
+    print(">>>>" + str(urllib.parse.quote_plus(source,encoding="UTF-8")))
+    #print(urllib.parse.urlencode(source))
+    secretToHide = "30268606F8B95F76B300D27630AFAC4E"
+    strToHash = qstring+secretToHide
+    sha256Value = hashlib.sha256(strToHash.encode("utf-8")).hexdigest()
+    qstring = qstring + "&sig=" + sha256Value 
+    print(qstring)
+    return CRISPYAPPSPOT + "?" + qstring
+    
 # Main 
 def main():
     
@@ -124,7 +149,9 @@ def main():
 
         else:
             #fetch the latest and create the file if not in cache
-            response = fetchURLasString(url)
+            ####NEED TO FETCH THE CONVERTEDURL FOR APPSPOT.COM
+            print("CRISPYURL: " + getSignedURL(url))
+            response = fetchURLasString(getSignedURL(url))
             if response is not None:
                 #save it in the cache
                 c_file = codecs.open(theFile, "wb") #in order to be able to write bytes to the file the 'b' is required
