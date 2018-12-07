@@ -19,12 +19,21 @@ import urllib.request # to fetch URL
 import urllib.parse # to encode/decode url
 #import httplib
 #import xml.etree.ElementTree as ET
-#CRISPYAPPSPOT = "http://crispy-snippets.appspot.com/datafeed"
-CRISPYAPPSPOT = "http://localhost:8080/datafeed"
+CRISPYAPPSPOT = "https://crispy-snippets.appspot.com/datafeed"
+#CRISPYAPPSPOT = "http://localhost:8080/datafeed"
 
+# canditates
+'''
+http://europa.eu/rapid/rss.htm
+https://europa.eu/newsroom/rss-feeds_en
+'''
 urlList = [
-             'https://www.economist.com/britain/rss.xml|The Economist (Britain)',
-             'https://www.economist.com/europe/rss.xml|The Economist (Europe)'
+             'https://www.economist.com/britain/rss.xml|The Economist (Britain)|1',
+             'https://www.economist.com/europe/rss.xml|The Economist (Europe)|2',
+             'http://feeds.bbci.co.uk/news/rss.xml|BBC Newsfeed (Top News)|3',
+             'http://feeds.bbci.co.uk/news/uk/rss.xml|BBC Newsfeed (UK)|4',
+             'http://feeds.bbci.co.uk/news/world/europe/rss.xml|BBC Newsfeed (Europe)|5',
+             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie (France)|6'
          ]
 
 
@@ -119,12 +128,14 @@ def main():
     #print(os.environ)        
 
     #useCache = True
-    dirpath = "/Users/" + os.environ['USERNAME'] +"/data/"
+    dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
+    if 'HOME' in os.environ and os.environ['HOME'] != '':
+        dirpath = os.environ['HOME'] + "/data/"
     CACHE = 'cache/'
     VERBOSE = True
         
     for entry in urlList:
-        (url,siteName) = entry.split('|')
+        (url,siteName,refnum) = entry.split('|')
         
         print(",,,,--------- (start) ------- " + siteName + " ----------------------------")
         
@@ -135,8 +146,9 @@ def main():
         if not os.path.isdir(dirpath + CACHE):
             #create the directory
             os.mkdir(dirpath + CACHE)
-            
-        theFile = dirpath + CACHE + md5value + '.xml'
+        
+        # the output file for this particilar <refnum>  
+        theFile = dirpath + CACHE + refnum + '_' + md5value + '.xml'
           
         # checks if the cached file exist for this url and read it if it does
            
