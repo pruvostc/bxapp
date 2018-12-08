@@ -145,8 +145,11 @@ def main():
         md5value = hashlib.md5(url.encode('utf-8')).hexdigest()
         
         #create the cache directory if it does not exists
+        if not os.path.isdir(dirpath):
+            #create the directory 'data'
+            os.mkdir(dirpath)
         if not os.path.isdir(dirpath + CACHE):
-            #create the directory
+            #create the directory 'cache'
             os.mkdir(dirpath + CACHE)
         
         # the output file for this particilar <refnum>  
