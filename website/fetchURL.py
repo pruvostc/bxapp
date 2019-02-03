@@ -20,9 +20,11 @@ import platform # used in creation date detection
 import urllib.request # to fetch URL 
 import urllib.parse # to encode/decode url
 #import httplib
-#import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET
+import json
 CRISPYAPPSPOT = "https://crispy-snippets.appspot.com/datafeed"
 #CRISPYAPPSPOT = "http://localhost:8080/datafeed"
+VERBOSE = True
 
 # canditates
 '''
@@ -35,10 +37,18 @@ urlList = [
              'http://feeds.bbci.co.uk/news/rss.xml|BBC Newsfeed (Top News)|3',
              'http://feeds.bbci.co.uk/news/uk/rss.xml|BBC Newsfeed (UK)|4',
              'http://feeds.bbci.co.uk/news/world/europe/rss.xml|BBC Newsfeed (Europe)|5',
-             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie (France)|6'
+             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie (France)|6',
+             'https://observer.com/feed/|The Observer (Britain)|7',
+             'http://europa.eu/rapid/search-result.htm?quickSearch=1&text=brexit&language=EN&format=RSS|European Commission (Europe)|8',
+             'http://feeds.bbci.co.uk/news/politics/uk_leaves_the_eu/rss.xml|BBC Politics (UK)|9'
          ]
 
-
+ns = {
+    'dc' : 'http://purl.org/dc/elements/1.1/',
+    'atom' : 'http://www.w3.org/2005/Atom',
+    'media' :"http://search.yahoo.com/mrss/",
+    'content' : "http://purl.org/rss/1.0/modules/content/"
+}
 # returns the creation date of a File
 def creation_date(path_to_file):
     """
@@ -81,9 +91,10 @@ def fetchURLasString(url):
         handle = urllib.request.urlopen(req) # open the connection and get the response
         
         # fiddle with headers
-        #headers = handle.info() # response header
-        #print(headers)
-        #print("Content-Type: ", handle.info()['Content-Type'])
+        if VERBOSE:
+            headers = handle.info() # response header
+            print(headers)
+            print("Content-Type: ", handle.info()['Content-Type'])
         
         # detect if the content is compressed or not.
         if (handle.info()['Content-Encoding'] is not None) and (handle.info()['Content-Encoding'] == 'gzip'):
@@ -121,12 +132,16 @@ def getSignedURL(source):
     strToHash = qstring+secretToHide
     sha256Value = hashlib.sha256(strToHash.encode("utf-8")).hexdigest()
     qstring = qstring + "&sig=" + sha256Value 
-    print(qstring)
+    if VERBOSE:
+        print(qstring)
     return CRISPYAPPSPOT + "?" + qstring
     
 # Main 
 def main():
+    fetchData()
+    buildNewsFeed()
     
+def fetchData():    
     #print(os.environ)        
 
     #useCache = True
@@ -134,7 +149,6 @@ def main():
     if 'HOME' in os.environ and os.environ['HOME'] != '':
         dirpath = os.environ['HOME'] + "/data/"
     CACHE = 'cache/'
-    VERBOSE = True
         
     for entry in urlList:
         (url,siteName,refnum) = entry.split('|')
@@ -145,8 +159,11 @@ def main():
         md5value = hashlib.md5(url.encode('utf-8')).hexdigest()
         
         #create the cache directory if it does not exists
+        if not os.path.isdir(dirpath):
+            #create the directory 'data'
+            os.mkdir(dirpath)
         if not os.path.isdir(dirpath + CACHE):
-            #create the directory
+            #create the directory 'cache'
             os.mkdir(dirpath + CACHE)
         
         # the output file for this particilar <refnum>  
@@ -154,9 +171,10 @@ def main():
           
         # checks if the cached file exist for this url and read it if it does
            
-        if os.path.isfile(theFile):
+        if os.path.isfile(theFile) and int(time.time()-creation_date(theFile)) < 43200: # more than 12h (43200s)
             #read the file
             if VERBOSE:
+                print(str(timestamp_to_datetime(creation_date(theFile))), str(timestamp_to_datetime(time.time())))
                 print("using cached version (" + theFile +") created: " + str(timestamp_to_datetime(creation_date(theFile))))
             
             processFile(theFile,siteName)
@@ -166,8 +184,12 @@ def main():
             ####NEED TO FETCH THE CONVERTEDURL FOR APPSPOT.COM
             print("CRISPYURL: " + getSignedURL(url))
             response = fetchURLasString(getSignedURL(url))
+            #response = fetchURLasString(url)
             if response is not None:
                 #save it in the cache
+                #output = response.decode()
+                #output = "".join( chr(x) for x in response)
+
                 c_file = codecs.open(theFile, "wb") #in order to be able to write bytes to the file the 'b' is required
                 c_file.write(response)
                 c_file.close()
@@ -178,7 +200,53 @@ def main():
                 print("ERROR: Unable to cache : " + url)
         
         print(",,,,------------------------- " + siteName + " ----------- (end) ----------\n")
-    
+
+def buildNewsFeed():
+    # location - same as in fetchData()...
+    dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
+    if 'HOME' in os.environ and os.environ['HOME'] != '':
+        dirpath = os.environ['HOME'] + "/data/"
+    CACHE = 'cache/'
+    if not os.path.isdir(dirpath + CACHE):
+        print("ERROR: Unable to open folder :" + dirpath + CACHE)
+    else:
+        fileList = os.listdir(dirpath + CACHE)
+        #go through all the feed files
+        
+        AlljsonData = {}
+        for name in fileList:
+            if name.endswith('.xml'):
+                print("-----------extracting news from " + dirpath + CACHE + name + " ----------")
+                feednum = name[:1]
+                root = ET.parse(dirpath + CACHE + name)
+                length = len(root.findall('channel/item',ns))
+                i = 0
+                for item in root.findall('channel/item',ns):
+                    i = i+1
+                    jsonData = {}
+                    jsonData.update(getElem(item,'title','title'))
+                    jsonData.update(getElem(item,'desc','description'))
+                    jsonData.update(getElem(item,'url','link'))
+                    #<pubDate>Sun, 27 Jan 2019 18:22:32 GMT</pubDate>
+                    jsonData.update(getElem(item,'date','pubDate'))
+                    jsonData['feednum'] = feednum
+                    if 'items' in AlljsonData:
+                        AlljsonData['items'].extend([jsonData])
+                    else:
+                        AlljsonData['items'] = [jsonData]
+        print(json.dumps(AlljsonData, indent=4, sort_keys=True))
+        #filter4Brexit(AlljsonData)
+        #deduplicate(AlljsonData)
+        
+
+def getElem (item, elem, string_xpath, namespace = ns):
+    element = {}
+    for entryElem in item.findall(string_xpath, namespace):
+        if ET.iselement(entryElem):
+            element[elem] = entryElem.text
+    return element
+
+
 if __name__ == '__main__':
     main()
     
