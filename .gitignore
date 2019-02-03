@@ -1,4 +1,5 @@
 data
 __pycache__/
+website/website/__pycache__/
 .viminfo
-
+.bash_history
