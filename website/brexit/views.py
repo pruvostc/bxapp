@@ -5,7 +5,9 @@ from django.http import HttpResponse
 import datetime, os, codecs
 
 def getEuropeanNews():
-    dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
+    dirpath = "./"
+    if 'USERNAME' in os.environ and os.environ['USERNAME'] != '':
+        dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
     if 'HOME' in os.environ and os.environ['HOME'] != '':
         dirpath = os.environ['HOME'] + "/data/"
     CACHE = 'cache/'
