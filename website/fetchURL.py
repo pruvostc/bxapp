@@ -13,18 +13,16 @@ import datetime
 import time
 import gzip
 import hashlib # for md5 digest
-#import operator
-import os
+import os, sys
 import platform # used in creation date detection
-#import re
 import urllib.request # to fetch URL 
 import urllib.parse # to encode/decode url
-#import httplib
 import xml.etree.ElementTree as ET
 import json
 CRISPYAPPSPOT = "https://crispy-snippets.appspot.com/datafeed"
 #CRISPYAPPSPOT = "http://localhost:8080/datafeed"
 VERBOSE = True
+CACHE = 'cache/'
 
 # canditates
 '''
@@ -32,15 +30,15 @@ http://europa.eu/rapid/rss.htm
 https://europa.eu/newsroom/rss-feeds_en
 '''
 urlList = [
-             'https://www.economist.com/britain/rss.xml|The Economist (Britain)|1',
-             'https://www.economist.com/europe/rss.xml|The Economist (Europe)|2',
-             'http://feeds.bbci.co.uk/news/rss.xml|BBC Newsfeed (Top News)|3',
-             'http://feeds.bbci.co.uk/news/uk/rss.xml|BBC Newsfeed (UK)|4',
-             'http://feeds.bbci.co.uk/news/world/europe/rss.xml|BBC Newsfeed (Europe)|5',
-             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie (France)|6',
-             'https://observer.com/feed/|The Observer (Britain)|7',
-             'http://europa.eu/rapid/search-result.htm?quickSearch=1&text=brexit&language=EN&format=RSS|European Commission (Europe)|8',
-             'http://feeds.bbci.co.uk/news/politics/uk_leaves_the_eu/rss.xml|BBC Politics (UK)|9'
+             'https://www.economist.com/britain/rss.xml|The Economist (Britain)|1|uk|Y',
+             'https://www.economist.com/europe/rss.xml|The Economist (Europe)|2|eu|Y',
+             'http://feeds.bbci.co.uk/news/rss.xml|BBC Newsfeed (Top News)|3|uk|Y',
+             'http://feeds.bbci.co.uk/news/uk/rss.xml|BBC Newsfeed (UK)|4|uk|Y',
+             'http://feeds.bbci.co.uk/news/world/europe/rss.xml|BBC Newsfeed (Europe)|5|eu|Y',
+             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie (France)|6|fr|Y',
+             'https://observer.com/feed/|The Observer (Britain)|7|uk|Y',
+             'http://europa.eu/rapid/search-result.htm?quickSearch=1&text=brexit&language=EN&format=RSS|European Commission (Europe)|8|eu|N',
+             'http://feeds.bbci.co.uk/news/politics/uk_leaves_the_eu/rss.xml|BBC Politics (UK)|9|uk|N'
          ]
 
 ns = {
@@ -135,9 +133,29 @@ def getSignedURL(source):
     if VERBOSE:
         print(qstring)
     return CRISPYAPPSPOT + "?" + qstring
+
+#
+def clean():
+    dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
+    if 'HOME' in os.environ and os.environ['HOME'] != '':
+        dirpath = os.environ['HOME'] + "/data/"
+    global CACHE
+    if os.path.isdir(dirpath + CACHE):
+        print("Removing all XML files in ", dirpath + CACHE)
+        fileList = os.listdir(dirpath + CACHE)
+        for name in fileList:
+            if name.endswith('.xml'):
+                os.remove(dirpath + CACHE + name)
     
 # Main 
 def main():
+    
+    arguments = sys.argv
+    # run through command line options
+    for i in range(0,len(arguments)):
+        #print(i, arguments[i])
+        if arguments[i] == '-clean':
+            clean()
     fetchData()
     buildNewsFeed()
     
@@ -148,10 +166,11 @@ def fetchData():
     dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
     if 'HOME' in os.environ and os.environ['HOME'] != '':
         dirpath = os.environ['HOME'] + "/data/"
-    CACHE = 'cache/'
-        
+    global CACHE
+    SEP = "_"
+    
     for entry in urlList:
-        (url,siteName,refnum) = entry.split('|')
+        (url,siteName,refnum,country,enable_filter) = entry.split('|')
         
         print(",,,,--------- (start) ------- " + siteName + " ----------------------------")
         
@@ -166,8 +185,8 @@ def fetchData():
             #create the directory 'cache'
             os.mkdir(dirpath + CACHE)
         
-        # the output file for this particilar <refnum>  
-        theFile = dirpath + CACHE + refnum + '_' + md5value + '.xml'
+        # the output file for this particilar <refnum>  <country> <filter>
+        theFile = dirpath + CACHE + refnum + SEP + md5value + SEP + country + SEP + enable_filter + '.xml'
           
         # checks if the cached file exist for this url and read it if it does
            
@@ -201,21 +220,39 @@ def fetchData():
         
         print(",,,,------------------------- " + siteName + " ----------- (end) ----------\n")
 
+def filter4Brexit(jsonData):
+    FILTER1 = 'no-deal'
+    FILTER2 = 'brexit'
+    newjsonData = {}
+    #print(json.dumps(jsonData, indent=4, sort_keys=True))
+    for item in jsonData['items']:
+        #print("<<",item['title'], "-", item['desc'])
+        if FILTER1 in item['title'].lower() or FILTER1 in item['desc'].lower() \
+            or FILTER2 in item['title'].lower() or FILTER2 in item['desc'].lower():
+            #save this item.
+            print("#>>",item['title'], "-", item['desc'])
+            if 'items' in newjsonData:
+                newjsonData['items'].extend([item])
+            else:
+                newjsonData['items'] = [item]
+
+    return newjsonData
+        
 def buildNewsFeed():
     # location - same as in fetchData()...
     dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
     if 'HOME' in os.environ and os.environ['HOME'] != '':
         dirpath = os.environ['HOME'] + "/data/"
-    CACHE = 'cache/'
+    global CACHE
     if not os.path.isdir(dirpath + CACHE):
         print("ERROR: Unable to open folder :" + dirpath + CACHE)
     else:
         fileList = os.listdir(dirpath + CACHE)
         #go through all the feed files
         
-        AlljsonData = {}
+        AlljsonData_eu = {}
         for name in fileList:
-            if name.endswith('.xml'):
+            if name.endswith('.xml') and "_eu_" in name:
                 print("-----------extracting news from " + dirpath + CACHE + name + " ----------")
                 feednum = name[:1]
                 root = ET.parse(dirpath + CACHE + name)
@@ -231,12 +268,21 @@ def buildNewsFeed():
                     jsonData.update(getElem(item,'date','pubDate'))
                     jsonData['feednum'] = feednum
                     if 'items' in AlljsonData:
-                        AlljsonData['items'].extend([jsonData])
+                        AlljsonData_eu['items'].extend([jsonData])
                     else:
-                        AlljsonData['items'] = [jsonData]
-        print(json.dumps(AlljsonData, indent=4, sort_keys=True))
-        #filter4Brexit(AlljsonData)
-        #deduplicate(AlljsonData)
+                        AlljsonData_eu['items'] = [jsonData]
+            elif name.endswith('.xml') and "_eu_" in name:
+                print("UK...")
+        #print(json.dumps(AlljsonData, indent=4, sort_keys=True))
+        filteredJson = filter4Brexit(AlljsonData_eu)
+        #deduplicate(AlljsonData) #if needed
+        
+        #print(json.dumps(filteredJson, indent=4, sort_keys=True))
+        
+        #TODO
+        #if len(filteredJson['items'] > 0:
+            # save the content for display
+      
         
 
 def getElem (item, elem, string_xpath, namespace = ns):
