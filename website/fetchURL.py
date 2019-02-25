@@ -11,6 +11,7 @@ Date October 2018
 import codecs
 import datetime
 import time
+import calendar
 import gzip
 import hashlib # for md5 digest
 import os, sys
@@ -69,7 +70,34 @@ def creation_date(path_to_file):
 def timestamp_to_datetime(timestamp = 0):
     timestamp = int(timestamp) # truncate milliseconds since not needed for this
     return datetime.datetime.fromtimestamp(timestamp)
-            
+
+#convert RSS pubDate to timestamp
+def rssPubDate_to_stimestamp(pubdate = "Sat, 1 Jan 1970 00:00:00 +0000"): 
+    #datetime.datetime(Mon Feb 15 2010, "%a %b %d %Y").strftime("%d/%m/%Y")
+    #s = "2016-03-26T09:25:55.000Z"
+    #f = "%Y-%m-%dT%H:%M:%S.%fZ"
+    #out = datetime.strptime(s, f)
+    convertedDate = ""
+    #print("in: ",pubdate)
+    if convertedDate == "":
+        try:
+            convertedDate = datetime.datetime.strptime(pubdate, "%a, %d %b %Y %H:%M:%S %z")
+        except ValueError:
+            convertedDate = ""
+    if convertedDate == "":
+        try:
+            convertedDate = datetime.datetime.strptime(pubdate, "%a, %d %b %Y %H:%M:%S %Z")
+        except ValueError:
+            convertedDate = ""
+    if convertedDate == "":
+       convertedDate = datetime.datetime.strptime("Sat, 1 Jan 1970 00:00:00 +0000", "%a, %d %b %Y %H:%M:%S %z")
+        
+    #time.struct_time(tm_year=2019, tm_mon=2, tm_mday=7, tm_hour=10, tm_min=3, tm_sec=0, tm_wday=3, tm_yday=38, tm_isdst=-1)
+    tt = datetime.datetime.timetuple(convertedDate)
+    #print("out tt: ", tt)
+    #print("out since epoch: ", calendar.timegm(tt) * 1000)
+    return calendar.timegm(tt) * 1000
+
 #fetch URL
 def fetchURLasString(url):
     response = None
@@ -264,25 +292,32 @@ def buildNewsFeed():
                     jsonData.update(getElem(item,'title','title'))
                     jsonData.update(getElem(item,'desc','description'))
                     jsonData.update(getElem(item,'url','link'))
-                    #<pubDate>Sun, 27 Jan 2019 18:22:32 GMT</pubDate>
-                    jsonData.update(getElem(item,'date','pubDate'))
+                    jsonData.update(getDateElem(item,'date','pubDate'))
                     jsonData['feednum'] = feednum
-                    if 'items' in AlljsonData:
+                    if 'items' in AlljsonData_eu:
                         AlljsonData_eu['items'].extend([jsonData])
                     else:
                         AlljsonData_eu['items'] = [jsonData]
-            elif name.endswith('.xml') and "_eu_" in name:
-                print("UK...")
+            elif name.endswith('.xml') and not "_eu_" in name:
+                print("UK...TODO...")
         #print(json.dumps(AlljsonData, indent=4, sort_keys=True))
         filteredJson = filter4Brexit(AlljsonData_eu)
         #deduplicate(AlljsonData) #if needed
         
-        #print(json.dumps(filteredJson, indent=4, sort_keys=True))
+        #Sort items by date
+        #sorted_jsonData_eu = []
+        #sorted_jsonData_eu = AlljsonData_eu
+        #AlljsonData_eu['items'] = sorted(unsorted, key = lambda x: x['date'], reverse=True)
         
-        #TODO
-        #if len(filteredJson['items'] > 0:
-            # save the content for display
-      
+        #TODO#TODO#filteredJson = sorted(filteredJson, key=lambda i: i['items']['date'], reverse=True)
+        
+        #generate output as JSON file
+        if len(filteredJson['items']) > 0:
+            # save the content for display, write the result to a file
+            outfilehandler = dirpath + 'eu.json'
+            c_file = codecs.open(outfilehandler, "w") #in order to be able to write bytes to the file the 'b' is required
+            c_file.write(json.dumps(filteredJson,ensure_ascii=False,sort_keys=True,indent=4))
+            c_file.close()      
         
 
 def getElem (item, elem, string_xpath, namespace = ns):
@@ -292,6 +327,12 @@ def getElem (item, elem, string_xpath, namespace = ns):
             element[elem] = entryElem.text
     return element
 
+def getDateElem (item, elem, string_xpath, namespace = ns):
+    element = {}
+    for entryElem in item.findall(string_xpath, namespace):
+        if ET.iselement(entryElem):
+            element[elem] = rssPubDate_to_stimestamp(entryElem.text)
+    return element
 
 if __name__ == '__main__':
     main()
