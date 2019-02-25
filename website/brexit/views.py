@@ -22,10 +22,13 @@ def getEuropeanNews():
                 result = json.load(json_file)
             json_file.close()
     
-            response = '<div class="itemblock">'
+            response = ""
             for newsitem in result["items"]:
-                response = response + "<div class=\"newstitle\"><li>" + newsitem['title'] + '</div>'
-            response = response + "</div>"
+                response = response + "<div class=\"divider\"></div>" + \
+                "<div class=\"newstitle\">" + \
+                "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
+                '</a></div>'
+            #response = response
         except:
             response = resultresponse = "<div>Oops, Something went wrong! Please come back later...</div>"
     
