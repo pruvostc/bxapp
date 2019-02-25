@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 import datetime, os, codecs
+import json
 
 def getEuropeanNews():
     dirpath = "./"
@@ -14,13 +15,19 @@ def getEuropeanNews():
     response = ''
     if not os.path.isdir(dirpath + CACHE):
         print("ERROR: Unable to open folder :" + dirpath + CACHE)
-        response = "Oops, Something went wrong! Please come back later..."
+        response = "<div>Oops, Something went wrong! Please come back later...</div>"
     else:
-        response = "eu news goes here"
-        theFile = dirpath + CACHE + '9_3f44483c097dcd65b344b9290e1c0823.xml'
-        c_file = codecs.open(theFile, "rb") #in order to be able to write bytes to the file the 'b' is required
-        response = c_file.read()
-        c_file.close()
+        try:
+            with codecs.open(dirpath + 'eu.json','r') as json_file:  
+                result = json.load(json_file)
+            json_file.close()
+    
+            response = '<div class="itemblock">'
+            for newsitem in result["items"]:
+                response = response + "<div class=\"newstitle\"><li>" + newsitem['title'] + '</div>'
+            response = response + "</div>"
+        except:
+            response = resultresponse = "<div>Oops, Something went wrong! Please come back later...</div>"
     
     return response
 
