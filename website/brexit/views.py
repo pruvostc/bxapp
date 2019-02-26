@@ -23,13 +23,17 @@ def getEuropeanNews():
             json_file.close()
     
             response = ""
+            i = 0
             for newsitem in result["items"]:
+                i = i + 1
                 date = datetime.datetime.fromtimestamp(newsitem['date']/1000.0)
-                date = date.strftime("%Y-%m-%d %H:%M:%S")
-                response = response + "<div class=\"divider\"></div>" + \
+                date = date.strftime("%Y-%m-%d %H:%M")
+                if i > 1:
+                    response = response + "<div class=\"divider\"></div>" 
+                response = response + "<div class=\"newsblock\"><div class=\"newsdate\">" + date + ' - </div>' + \
                 "<div class=\"newstitle\">" + \
                 "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
-                '</a>' + \
+                '</a></div>' + \
                 "<div class=\"item_desc\">" + \
                 newsitem['desc'] + "</div>" + \
                 '</div>'

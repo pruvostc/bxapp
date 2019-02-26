@@ -12,12 +12,23 @@
     border-left:3px solid red;
 }
 .newstitle {
+	display: inline;
+	font-size: .7rem;
+	font-weight: bold;
+}
+.newsblock {
 	border-color: #ff9f80;
     background-color: #ddf0ff;
     border-style: inset;
     border-width: thin;
     padding: 5px;
     font-size: .8rem;
+    font-weight: normal;
+}
+.newsdate {
+	display: inline;
+	font-size: .6rem;
+	color: #e41d2e;
 }
 .item_desc{
 	font-size: .7rem;
