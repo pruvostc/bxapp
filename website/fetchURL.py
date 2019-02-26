@@ -20,6 +20,7 @@ import urllib.request # to fetch URL
 import urllib.parse # to encode/decode url
 import xml.etree.ElementTree as ET
 import json
+from distutils.filelist import FileList
 CRISPYAPPSPOT = "https://crispy-snippets.appspot.com/datafeed"
 #CRISPYAPPSPOT = "http://localhost:8080/datafeed"
 VERBOSE = True
@@ -36,7 +37,7 @@ urlList = [
              'http://feeds.bbci.co.uk/news/rss.xml|BBC Newsfeed (Top News)|3|uk|Y',
              'http://feeds.bbci.co.uk/news/uk/rss.xml|BBC Newsfeed (UK)|4|uk|Y',
              'http://feeds.bbci.co.uk/news/world/europe/rss.xml|BBC Newsfeed (Europe)|5|eu|Y',
-             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie (France)|6|fr|Y',
+             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie (France)|6|eu|Y',
              'https://observer.com/feed/|The Observer (Britain)|7|uk|Y',
              'http://europa.eu/rapid/search-result.htm?quickSearch=1&text=brexit&language=EN&format=RSS|European Commission (Europe)|8|eu|N',
              'http://feeds.bbci.co.uk/news/politics/uk_leaves_the_eu/rss.xml|BBC Politics (UK)|9|uk|N'
@@ -252,6 +253,7 @@ def filter4Brexit(jsonData):
     FILTER1 = 'no-deal'
     FILTER2 = 'brexit'
     newjsonData = {}
+    existingList = []
     #print(json.dumps(jsonData, indent=4, sort_keys=True))
     for item in jsonData['items']:
         #print("<<",item['title'], "-", item['desc'])
@@ -259,13 +261,46 @@ def filter4Brexit(jsonData):
             or FILTER2 in item['title'].lower() or FILTER2 in item['desc'].lower():
             #save this item.
             print("#>>",item['title'], "-", item['desc'])
+            
+            #basic de-duplication to avoid duplicate titles
+            if item['title'] in existingList:
+                continue # skip adding
+            else:
+               existingList.append(item['title']) 
+               
             if 'items' in newjsonData:
                 newjsonData['items'].extend([item])
             else:
                 newjsonData['items'] = [item]
 
     return newjsonData
-        
+
+def generatedNewsFeed(dirpath, fileList, countrycode):
+    generatedJsonData = {}
+    for name in fileList:
+        if name.endswith('.xml') and countrycode in name:
+            print("-----------extracting news from " + dirpath + CACHE + name + " ----------")
+            feednum = name[:1]
+            root = ET.parse(dirpath + CACHE + name)
+            length = len(root.findall('channel/item',ns))
+            i = 0
+            for item in root.findall('channel/item',ns):
+                i = i+1
+                jsonData = {}
+                jsonData.update(getElem(item,'title','title'))
+                jsonData.update(getElem(item,'desc','description'))
+                jsonData.update(getElem(item,'url','link'))
+                jsonData.update(getDateElem(item,'date','pubDate'))
+                jsonData['feednum'] = feednum
+                if 'items' in generatedJsonData:
+                    generatedJsonData['items'].extend([jsonData])
+                else:
+                    generatedJsonData['items'] = [jsonData]
+        elif name.endswith('.xml') and not countrycode in name:
+            print("skipping " + name + " for countrycode = " + countrycode + "...")
+            
+    return generatedJsonData
+    
 def buildNewsFeed():
     # location - same as in fetchData()...
     dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
@@ -276,48 +311,46 @@ def buildNewsFeed():
         print("ERROR: Unable to open folder :" + dirpath + CACHE)
     else:
         fileList = os.listdir(dirpath + CACHE)
-        #go through all the feed files
-        
-        AlljsonData_eu = {}
-        for name in fileList:
-            if name.endswith('.xml') and "_eu_" in name:
-                print("-----------extracting news from " + dirpath + CACHE + name + " ----------")
-                feednum = name[:1]
-                root = ET.parse(dirpath + CACHE + name)
-                length = len(root.findall('channel/item',ns))
-                i = 0
-                for item in root.findall('channel/item',ns):
-                    i = i+1
-                    jsonData = {}
-                    jsonData.update(getElem(item,'title','title'))
-                    jsonData.update(getElem(item,'desc','description'))
-                    jsonData.update(getElem(item,'url','link'))
-                    jsonData.update(getDateElem(item,'date','pubDate'))
-                    jsonData['feednum'] = feednum
-                    if 'items' in AlljsonData_eu:
-                        AlljsonData_eu['items'].extend([jsonData])
-                    else:
-                        AlljsonData_eu['items'] = [jsonData]
-            elif name.endswith('.xml') and not "_eu_" in name:
-                print("UK...TODO...")
+        #######################################
+        ############### EU NEWS ###############
+        #######################################
+        AlljsonData_eu = generatedNewsFeed(dirpath, fileList, "_eu_") # {}
         #print(json.dumps(AlljsonData, indent=4, sort_keys=True))
         filteredJson = filter4Brexit(AlljsonData_eu)
-        #deduplicate(AlljsonData) #if needed
-        
         #Sort items by date
-        #sorted_jsonData_eu = []
-        #sorted_jsonData_eu = AlljsonData_eu
-        #AlljsonData_eu['items'] = sorted(unsorted, key = lambda x: x['date'], reverse=True)
-        
-        #TODO#TODO#filteredJson = sorted(filteredJson, key=lambda i: i['items']['date'], reverse=True)
+        SortedJson = {}
+        filteredItems = filteredJson['items']
+        SortedJson['items'] = sorted(filteredItems, key=lambda i: i['date'], reverse=True)
         
         #generate output as JSON file
-        if len(filteredJson['items']) > 0:
+        if len(SortedJson['items']) > 0:
             # save the content for display, write the result to a file
             outfilehandler = dirpath + 'eu.json'
             c_file = codecs.open(outfilehandler, "w") #in order to be able to write bytes to the file the 'b' is required
-            c_file.write(json.dumps(filteredJson,ensure_ascii=False,sort_keys=True,indent=4))
-            c_file.close()      
+            c_file.write(json.dumps(SortedJson,ensure_ascii=False,sort_keys=True,indent=4))
+            c_file.close()
+        
+         
+        #######################################
+        ############### UK NEWS ###############
+        #######################################
+        AlljsonData_uk = generatedNewsFeed(dirpath, fileList, "_uk_") # {}
+        #print(json.dumps(AlljsonData, indent=4, sort_keys=True))
+        filteredJson = filter4Brexit(AlljsonData_uk)
+        #Sort items by date
+        SortedJson = {}
+        filteredItems = filteredJson['items']
+        SortedJson['items'] = sorted(filteredItems, key=lambda i: i['date'], reverse=True)
+        
+        #generate output as JSON file
+        if len(SortedJson['items']) > 0:
+            # save the content for display, write the result to a file
+            outfilehandler = dirpath + 'uk.json'
+            c_file = codecs.open(outfilehandler, "w") #in order to be able to write bytes to the file the 'b' is required
+            c_file.write(json.dumps(SortedJson,ensure_ascii=False,sort_keys=True,indent=4))
+            c_file.close()
+        
+        
         
 
 def getElem (item, elem, string_xpath, namespace = ns):
