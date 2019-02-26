@@ -1,18 +1,27 @@
 # Empty CSS file for your own CSS
 
+# the first class does not seem to be picked up so keep it empty, as-is
+.body{
+}
 .divider {
-    position:absolute;
-    left:50%;
+	position: relative;
+	height: 20px;
+    left:10%;
     top:10%;
     bottom:10%;
-    border-left:1px solid white;
+    border-left:3px solid red;
 }
-
 .newstitle {
 	border-color: #ff9f80;
     background-color: #ddf0ff;
     border-style: inset;
     border-width: thin;
     padding: 5px;
-    font-size: 12px;
+    font-size: .8rem;
+}
+.item_desc{
+	font-size: .7rem;
+}
+.item_desc{
+	font-size: .6rem;
 }
