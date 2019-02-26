@@ -24,10 +24,17 @@ def getEuropeanNews():
     
             response = ""
             for newsitem in result["items"]:
+                date = datetime.datetime.fromtimestamp(newsitem['date']/1000.0)
+                date = date.strftime("%Y-%m-%d %H:%M:%S")
                 response = response + "<div class=\"divider\"></div>" + \
                 "<div class=\"newstitle\">" + \
                 "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
-                '</a></div>'
+                '</a>' + \
+                "<div class=\"item_desc\">" + \
+                newsitem['desc'] + "</div>" + \
+                '</div>'
+                
+                
             #response = response
         except:
             response = resultresponse = "<div>Oops, Something went wrong! Please come back later...</div>"
