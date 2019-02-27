@@ -13,7 +13,7 @@
 }
 .newstitle {
 	display: inline;
-	font-size: .7rem;
+	font-size: .8rem;
 	font-weight: bold;
 }
 .newsblock {
@@ -27,12 +27,9 @@
 }
 .newsdate {
 	display: inline;
-	font-size: .6rem;
+	font-size: .7rem;
 	color: #e41d2e;
 }
 .item_desc{
 	font-size: .7rem;
-}
-.item_desc{
-	font-size: .6rem;
 }
