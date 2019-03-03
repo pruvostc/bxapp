@@ -64,21 +64,23 @@ def getUKNews():
     
             response = ""
             i = 0
+            MAX = 12
             for newsitem in result["items"]:
                 i = i + 1
                 date = datetime.datetime.fromtimestamp(newsitem['date']/1000.0)
                 date = date.strftime("%Y-%m-%d %H:%M")
-                if i > 1:
-                    response = response + "<div class=\"divider\"></div>" 
-                response = response + "<div class=\"newsblock\"><div class=\"newsdate\">" + date + ' - </div>' + \
-                "<div class=\"newstitle\">" + \
-                "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
-                '</a></div>' + \
-                "<div class=\"item_desc\">" + \
-                newsitem['desc'] + "</div>" + \
-                '</div>'
-                
-                
+                if i >= 1 and i <= MAX :
+                    if i > 1:
+                        response = response + "<div class=\"divider\"></div>" 
+                    response = response + "<div class=\"newsblock\"><div class=\"newsdate\">" + date + ' - </div>' + \
+                    "<div class=\"newstitle\">" + \
+                    "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
+                    '</a></div>' + \
+                    "<div class=\"item_desc\">" + \
+                    newsitem['desc'] + "</div>" + \
+                    '</div>'
+                if i == MAX + 1:
+                    response = response + "<p> see more  \u00BB</p>"
             #response = response
         except:
             response = resultresponse = "<div>Oops, Something went wrong! Please come back later...</div>"
