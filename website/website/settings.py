@@ -26,7 +26,7 @@ SECRET_KEY = secretsettings.secret_k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'crispy.pythonanywhere.com',u'127.0.0.1',u'localhost']
+ALLOWED_HOSTS = [u'www.theblueplanet.net',u'crispy.pythonanywhere.com',u'127.0.0.1',u'localhost']
 
 
 # Application definition
