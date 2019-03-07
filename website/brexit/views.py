@@ -87,11 +87,22 @@ def getUKNews():
     
     return response
 
+def getInclusionDetails():
+    adInsert = '''<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8994644884274858",
+    enable_page_level_ads: true
+  });
+</script>'''
+    return adInsert
+
 def index(request):
     #return HttpResponse("Hello, world. You're at the home index.")
     PageName = 'brexit.index'
     now = datetime.datetime.now()
     euNews = getEuropeanNews()
     ukNews = getUKNews()
-    context = {'PageName': PageName, 'time' : now, 'euSide': euNews, 'ukSide': ukNews}
+    googleAds = getInclusionDetails()
+    context = {'PageName': PageName, 'time' : now, 'euSide': euNews, 'ukSide': ukNews, 'googleAds': googleAds}
     return render(request, 'brexit/index.html', context)
