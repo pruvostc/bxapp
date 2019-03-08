@@ -256,11 +256,15 @@ def filter4Brexit(jsonData):
     existingList = []
     #print(json.dumps(jsonData, indent=4, sort_keys=True))
     for item in jsonData['items']:
-        #print("<<",item['title'], "-", item['desc'])
+        #print("<>> ",item)
+        if 'title' not in item:
+            continue
+        if ('desc' not in item) or (item['desc']) == None:
+            item['desc'] = '...'
+        
         if FILTER1 in item['title'].lower() or FILTER1 in item['desc'].lower() \
             or FILTER2 in item['title'].lower() or FILTER2 in item['desc'].lower():
             #save this item.
-            print("#>>",item['title'], "-", item['desc'])
             
             #basic de-duplication to avoid duplicate titles
             if item['title'] in existingList:
