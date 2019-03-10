@@ -25,6 +25,7 @@ CRISPYAPPSPOT = "https://crispy-snippets.appspot.com/datafeed"
 #CRISPYAPPSPOT = "http://localhost:8080/datafeed"
 VERBOSE = True
 CACHE = 'cache/'
+FEEDNAME = {}
 
 # canditates
 '''
@@ -32,15 +33,15 @@ http://europa.eu/rapid/rss.htm
 https://europa.eu/newsroom/rss-feeds_en
 '''
 urlList = [
-             'https://www.economist.com/britain/rss.xml|The Economist (Britain)|1|uk|Y',
+             'https://www.economist.com/britain/rss.xml|The Economist|1|uk|Y',
              'https://www.economist.com/europe/rss.xml|The Economist (Europe)|2|eu|Y',
-             'http://feeds.bbci.co.uk/news/rss.xml|BBC Newsfeed (Top News)|3|uk|Y',
-             'http://feeds.bbci.co.uk/news/uk/rss.xml|BBC Newsfeed (UK)|4|uk|Y',
-             'http://feeds.bbci.co.uk/news/world/europe/rss.xml|BBC Newsfeed (Europe)|5|eu|Y',
-             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie (France)|6|eu|Y',
-             'https://observer.com/feed/|The Observer (Britain)|7|uk|Y',
-             'http://europa.eu/rapid/search-result.htm?quickSearch=1&text=brexit&language=EN&format=RSS|European Commission (Europe)|8|eu|N',
-             'http://feeds.bbci.co.uk/news/politics/uk_leaves_the_eu/rss.xml|BBC Politics (UK)|9|uk|N'
+             'http://feeds.bbci.co.uk/news/rss.xml|BBC Top News|3|uk|Y',
+             'http://feeds.bbci.co.uk/news/uk/rss.xml|BBC News|4|uk|Y',
+             'http://feeds.bbci.co.uk/news/world/europe/rss.xml|BBC Europe|5|eu|Y',
+             'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie|6|eu|Y',
+             'https://observer.com/feed/|The Observer|7|uk|Y',
+             'http://europa.eu/rapid/search-result.htm?quickSearch=1&text=brexit&language=EN&format=RSS|European Commission|8|eu|N',
+             'http://feeds.bbci.co.uk/news/politics/uk_leaves_the_eu/rss.xml|BBC Politics|9|uk|N'
          ]
 
 ns = {
@@ -176,6 +177,13 @@ def clean():
             if name.endswith('.xml'):
                 os.remove(dirpath + CACHE + name)
     
+
+def initFeednames ():
+    global FEEDNAME
+    for entry in urlList:
+        (url,siteName,refnum,country,enable_filter) = entry.split('|')
+        FEEDNAME[refnum] = siteName
+
 # Main 
 def main():
     
@@ -185,6 +193,7 @@ def main():
         #print(i, arguments[i])
         if arguments[i] == '-clean':
             clean()
+    initFeednames()
     fetchData()
     buildNewsFeed()
     
@@ -281,6 +290,7 @@ def filter4Brexit(jsonData):
 
 def generatedNewsFeed(dirpath, fileList, countrycode):
     generatedJsonData = {}
+    global FEEDNAME
     for name in fileList:
         if name.endswith('.xml') and countrycode in name:
             print("-----------extracting news from " + dirpath + CACHE + name + " ----------")
@@ -295,7 +305,7 @@ def generatedNewsFeed(dirpath, fileList, countrycode):
                 jsonData.update(getElem(item,'desc','description'))
                 jsonData.update(getElem(item,'url','link'))
                 jsonData.update(getDateElem(item,'date','pubDate'))
-                jsonData['feednum'] = feednum
+                jsonData['feedname'] = FEEDNAME[feednum]
                 if 'items' in generatedJsonData:
                     generatedJsonData['items'].extend([jsonData])
                 else:

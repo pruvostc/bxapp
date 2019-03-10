@@ -28,10 +28,14 @@
 .newsdate {
 	display: inline;
 	font-size: .7rem;
-	color: #e41d2e;
+	color: #008080;
 }
 .item_desc{
 	font-size: .7rem;
+}
+.item_origin{
+	font-size: .6rem;
+	color: #008080;
 }
 h1.tbp-header{
 	font-size: 4rem;

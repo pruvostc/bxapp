@@ -34,6 +34,7 @@ def getEuropeanNews():
                 "<div class=\"newstitle\">" + \
                 "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
                 '</a></div>' + \
+                "<div class=\"item_origin\">"+ newsitem['feedname'] +'</div>' +\
                 "<div class=\"item_desc\">" + \
                 newsitem['desc'] + "</div>" + \
                 '</div>'
@@ -76,6 +77,7 @@ def getUKNews():
                     "<div class=\"newstitle\">" + \
                     "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
                     '</a></div>' + \
+                    "<div class=\"item_origin\">"+ newsitem['feedname'] +'</div>' +\
                     "<div class=\"item_desc\">" + \
                     newsitem['desc'] + "</div>" + \
                     '</div>'
@@ -92,6 +94,7 @@ def getInclusionDetails():
 <script>
   (adsbygoogle = window.adsbygoogle || []).push({
     google_ad_client: "ca-pub-8994644884274858",
+    google_adtest: "on",
     enable_page_level_ads: true
   });
 </script>'''
