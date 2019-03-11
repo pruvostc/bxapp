@@ -41,8 +41,16 @@ urlList = [
              'http://www.lefigaro.fr/rss/figaro_economie.xml|LeFigaro Economie|6|eu|Y',
              'https://observer.com/feed/|The Observer|7|uk|Y',
              'http://europa.eu/rapid/search-result.htm?quickSearch=1&text=brexit&language=EN&format=RSS|European Commission|8|eu|N',
-             'http://feeds.bbci.co.uk/news/politics/uk_leaves_the_eu/rss.xml|BBC Politics|9|uk|N'
+             'http://feeds.bbci.co.uk/news/politics/uk_leaves_the_eu/rss.xml|BBC Politics|9|uk|N',
+             'https://www.brexitlegal.com/feed/|Brexit legal|10|uk|N',
+             'https://www.theguardian.com/politics/eu-referendum/rss|The Guardian|11|uk|N',
+             'http://www.independent.co.uk/topic/brexit/rss|The Independent|12|uk|Y',
+             'https://www.ft.com/brexit?format=rss|The Financial Times|13|uk|N',
+             'https://blogs.lse.ac.uk/brexit/feed/|The London School of Economics|14|uk|N',
+             'https://www.bloomberg.com/professional/feed/|Bloomberg|15|uk|Y',
+             'http://www.politico.eu/section/brexit/feed/|Politico.eu|16|eu|Y'
          ]
+
 
 ns = {
     'dc' : 'http://purl.org/dc/elements/1.1/',
@@ -360,7 +368,7 @@ def buildNewsFeed():
         if len(SortedJson['items']) > 0:
             # save the content for display, write the result to a file
             outfilehandler = dirpath + 'uk.json'
-            c_file = codecs.open(outfilehandler, "w") #in order to be able to write bytes to the file the 'b' is required
+            c_file = codecs.open(outfilehandler, "w", encoding="UTF-8") #in order to be able to write bytes to the file the 'b' is required
             c_file.write(json.dumps(SortedJson,ensure_ascii=False,sort_keys=True,indent=4))
             c_file.close()
         
