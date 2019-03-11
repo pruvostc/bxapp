@@ -88,7 +88,7 @@ def getUKNews():
                         newsitem['desc'] + "</div>" + \
                         '</div>'
                     else:
-                        i = i-1
+                        i = i-1 # fetch one more instead
                         continue
                     
                     if i >= 1:
