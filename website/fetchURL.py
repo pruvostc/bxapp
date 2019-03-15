@@ -302,7 +302,8 @@ def generatedNewsFeed(dirpath, fileList, countrycode):
     for name in fileList:
         if name.endswith('.xml') and countrycode in name:
             print("-----------extracting news from " + dirpath + CACHE + name + " ----------")
-            feednum = name[:1]
+            pos = name.index("_") # get the position of the first '_' to extract the feed number
+            feednum = name[:pos]
             root = ET.parse(dirpath + CACHE + name)
             length = len(root.findall('channel/item',ns))
             i = 0
