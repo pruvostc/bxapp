@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import datetime, os, codecs
 import json
+from utils import favicon
 
 def getEuropeanNews():
     dirpath = "./"
@@ -119,6 +120,12 @@ def index(request):
     now = datetime.datetime.now()
     euNews = getEuropeanNews()
     ukNews = getUKNews()
+    faviconText = favicon.TEXT
     googleAds = getInclusionDetails()
-    context = {'PageName': PageName, 'time' : now, 'euSide': euNews, 'ukSide': ukNews, 'googleAds': googleAds}
+    context = {'PageName': PageName, 
+               'time' : now, 
+               'euSide': euNews, 
+               'ukSide': ukNews, 
+               'googleAds': googleAds, 
+               'faviconText': faviconText }
     return render(request, 'brexit/index.html', context)
