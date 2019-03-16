@@ -96,7 +96,7 @@ def getUKNews():
                         response = response + "<div class=\"divider\"></div>" 
                         
                 if i == MAX + 1:
-                    response = response + "<p> see more  \u00BB</p>"
+                    response = response + "<p><!-- see more  \u00BB --></p>"
             #response = response
         except:
             response = resultresponse = "<div>Oops, Something went wrong! Please come back later...</div>"
