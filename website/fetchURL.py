@@ -304,21 +304,24 @@ def generatedNewsFeed(dirpath, fileList, countrycode):
             print("-----------extracting news from " + dirpath + CACHE + name + " ----------")
             pos = name.index("_") # get the position of the first '_' to extract the feed number
             feednum = name[:pos]
-            root = ET.parse(dirpath + CACHE + name)
-            length = len(root.findall('channel/item',ns))
-            i = 0
-            for item in root.findall('channel/item',ns):
-                i = i+1
-                jsonData = {}
-                jsonData.update(getElem(item,'title','title'))
-                jsonData.update(getElem(item,'desc','description'))
-                jsonData.update(getElem(item,'url','link'))
-                jsonData.update(getDateElem(item,'date','pubDate'))
-                jsonData['feedname'] = FEEDNAME[feednum]
-                if 'items' in generatedJsonData:
-                    generatedJsonData['items'].extend([jsonData])
-                else:
-                    generatedJsonData['items'] = [jsonData]
+            try:
+                root = ET.parse(dirpath + CACHE + name)
+                length = len(root.findall('channel/item',ns))
+                i = 0
+                for item in root.findall('channel/item',ns):
+                    i = i+1
+                    jsonData = {}
+                    jsonData.update(getElem(item,'title','title'))
+                    jsonData.update(getElem(item,'desc','description'))
+                    jsonData.update(getElem(item,'url','link'))
+                    jsonData.update(getDateElem(item,'date','pubDate'))
+                    jsonData['feedname'] = FEEDNAME[feednum]
+                    if 'items' in generatedJsonData:
+                        generatedJsonData['items'].extend([jsonData])
+                    else:
+                        generatedJsonData['items'] = [jsonData]
+            except:
+                print("ERROR: Failed to parse ", dirpath + CACHE + name)
         elif name.endswith('.xml') and not countrycode in name:
             print("skipping " + name + " for countrycode = " + countrycode + "...")
             
