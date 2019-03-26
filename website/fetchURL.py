@@ -236,7 +236,7 @@ def fetchData():
           
         # checks if the cached file exist for this url and read it if it does
            
-        if os.path.isfile(theFile) and int(time.time()-creation_date(theFile)) < 10800: # more than 3h (10800s)
+        if os.path.isfile(theFile) and int(time.time()-creation_date(theFile)) <= 3600: # more than 1h (3600s)
             #read the file
             if VERBOSE:
                 print(str(timestamp_to_datetime(creation_date(theFile))), str(timestamp_to_datetime(time.time())))
