@@ -141,8 +141,7 @@ def referendum(request):
     return render(request, 'brexit/referendum.html', context)
 
 def whatisbrexit(request):
-    #return HttpResponse("Hello, world. You're at the home index.")
-    PageName = 'brexit.referendum'
+    PageName = 'brexit.whatisbrexit'
     faviconText = favicon.TEXT
     googleAds = getInclusionDetails()
     context = {'PageName': PageName,  
@@ -150,12 +149,30 @@ def whatisbrexit(request):
                'faviconText': faviconText }
     return render(request, 'brexit/whatisbrexit.html', context)
 
-def echarts(request):
-    #return HttpResponse("Hello, world. You're at the home index.")
-    PageName = 'brexit.referendum'
+def migration(request):
+    PageName = 'brexit.migration'
     faviconText = favicon.TEXT
     googleAds = getInclusionDetails()
     context = {'PageName': PageName,  
                'googleAds': googleAds, 
                'faviconText': faviconText }
-    return render(request, 'brexit/economic-charts.html', context)
+    return render(request, 'brexit/migration.html', context)
+
+def whatnext(request):
+    PageName = 'brexit.migration'
+    faviconText = favicon.TEXT
+    googleAds = getInclusionDetails()
+    context = {'PageName': PageName,  
+               'googleAds': googleAds, 
+               'faviconText': faviconText }
+    return render(request, 'brexit/whatnext.html', context)
+
+def echarts(request):
+    #return HttpResponse("Hello, world. You're at the home index.")
+    PageName = 'brexit.echarts'
+    faviconText = favicon.TEXT
+    googleAds = getInclusionDetails()
+    context = {'PageName': PageName,  
+               'googleAds': googleAds, 
+               'faviconText': faviconText }
+    return render(request, 'brexit/echarts.html', context)
