@@ -6,6 +6,26 @@ import datetime, os, codecs
 import json
 from utils import favicon
 
+__GoogleAnalytics = '''
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-137783783-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-137783783-1');
+</script>
+'''
+
+__GoogleAdsense = '''<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8994644884274858",
+    google_adtest: "on",
+    enable_page_level_ads: true
+  });
+</script>'''
+
 def getEuropeanNews():
     dirpath = "./"
     if 'USERNAME' in os.environ and os.environ['USERNAME'] != '':
@@ -103,76 +123,62 @@ def getUKNews():
     
     return response
 
-def getInclusionDetails():
-    adInsert = '''<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-8994644884274858",
-    google_adtest: "on",
-    enable_page_level_ads: true
-  });
-</script>'''
-    return adInsert
-
 def index(request):
-    #return HttpResponse("Hello, world. You're at the home index.")
     PageName = 'brexit.index'
     now = datetime.datetime.now()
     euNews = getEuropeanNews()
     ukNews = getUKNews()
     faviconText = favicon.TEXT
-    googleAds = getInclusionDetails()
     context = {'PageName': PageName, 
                'time' : now, 
                'euSide': euNews, 
                'ukSide': ukNews, 
-               'googleAds': googleAds, 
+               'googleAds': __GoogleAdsense,
+               'googleAnalytics': __GoogleAnalytics,
                'faviconText': faviconText }
     return render(request, 'brexit/index.html', context)
 
 def referendum(request):
-    #return HttpResponse("Hello, world. You're at the home index.")
     PageName = 'brexit.referendum'
     faviconText = favicon.TEXT
-    googleAds = getInclusionDetails()
     context = {'PageName': PageName,  
-               'googleAds': googleAds, 
+               'googleAds': __GoogleAdsense,
+               'googleAnalytics': __GoogleAnalytics,
                'faviconText': faviconText }
     return render(request, 'brexit/referendum.html', context)
 
 def whatisbrexit(request):
     PageName = 'brexit.whatisbrexit'
     faviconText = favicon.TEXT
-    googleAds = getInclusionDetails()
     context = {'PageName': PageName,  
-               'googleAds': googleAds, 
+               'googleAds': __GoogleAdsense,
+               'googleAnalytics': __GoogleAnalytics,
                'faviconText': faviconText }
     return render(request, 'brexit/whatisbrexit.html', context)
 
 def migration(request):
     PageName = 'brexit.migration'
     faviconText = favicon.TEXT
-    googleAds = getInclusionDetails()
     context = {'PageName': PageName,  
-               'googleAds': googleAds, 
+               'googleAds': __GoogleAdsense,
+               'googleAnalytics': __GoogleAnalytics,
                'faviconText': faviconText }
     return render(request, 'brexit/migration.html', context)
 
 def whatnext(request):
     PageName = 'brexit.migration'
     faviconText = favicon.TEXT
-    googleAds = getInclusionDetails()
     context = {'PageName': PageName,  
-               'googleAds': googleAds, 
+               'googleAds': __GoogleAdsense,
+               'googleAnalytics': __GoogleAnalytics,
                'faviconText': faviconText }
     return render(request, 'brexit/whatnext.html', context)
 
 def echarts(request):
-    #return HttpResponse("Hello, world. You're at the home index.")
     PageName = 'brexit.echarts'
     faviconText = favicon.TEXT
-    googleAds = getInclusionDetails()
     context = {'PageName': PageName,  
-               'googleAds': googleAds, 
+               'googleAds': __GoogleAdsense,
+               'googleAnalytics': __GoogleAnalytics,
                'faviconText': faviconText }
     return render(request, 'brexit/echarts.html', context)

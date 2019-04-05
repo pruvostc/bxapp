@@ -45,3 +45,10 @@ h1.page-title {
 	font-size: 3rem;
 	color: #5a3ec5;
 }
+div.page-footer {
+	padding-left: 5%;
+}
+p.page-footer {
+  font-size: .8rem;
+  margin: 0;
+}
