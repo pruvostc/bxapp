@@ -40,13 +40,7 @@
 		<div class="col-md-3"><strong>Final Score</strong><p>The results show that only 3 regions had a majority of voters wanting to remain in the EU: London, Scotland and Northern Ireland. The country has been very divided with 51.89% Leavers and 48.11% Remainers.</p></div>
 		<div class="col-md-4"><em>Data Source:</em><br/><a href="http://data.london.gov.uk/elections" target="_blank">http://data.london.gov.uk/elections</a></div>
 	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="page-footer"><hr/>
-			<p><a href="/legal/privacypolicy" target="_blank">Privacy Policy <i class='fa fa-pencil' style='font-size:16px;color:red'></i></a></p>
-			<p>© theblueplanet.net 2019 all rights reserved, except content provided by third parties.</p></div>
-		</div>
-	</div>
+	{% autoescape off %}{{footer}}{% endautoescape %}
   </div>
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/bootstrap.min.js"></script>

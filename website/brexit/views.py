@@ -5,6 +5,7 @@ from django.http import HttpResponse
 import datetime, os, codecs
 import json
 from utils import favicon
+from utils import footer
 
 __GoogleAnalytics = '''
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -128,57 +129,57 @@ def index(request):
     now = datetime.datetime.now()
     euNews = getEuropeanNews()
     ukNews = getUKNews()
-    faviconText = favicon.TEXT
     context = {'PageName': PageName, 
                'time' : now, 
                'euSide': euNews, 
                'ukSide': ukNews, 
                'googleAds': __GoogleAdsense,
                'googleAnalytics': __GoogleAnalytics,
-               'faviconText': faviconText }
+               'faviconText': favicon.TEXT,
+               'footer': footer.TEXT }
     return render(request, 'brexit/index.html', context)
 
 def referendum(request):
     PageName = 'brexit.referendum'
-    faviconText = favicon.TEXT
     context = {'PageName': PageName,  
                'googleAds': __GoogleAdsense,
                'googleAnalytics': __GoogleAnalytics,
-               'faviconText': faviconText }
+               'faviconText': favicon.TEXT,
+               'footer': footer.TEXT }
     return render(request, 'brexit/referendum.html', context)
 
 def whatisbrexit(request):
     PageName = 'brexit.whatisbrexit'
-    faviconText = favicon.TEXT
     context = {'PageName': PageName,  
                'googleAds': __GoogleAdsense,
                'googleAnalytics': __GoogleAnalytics,
-               'faviconText': faviconText }
+               'faviconText': favicon.TEXT,
+               'footer': footer.TEXT }
     return render(request, 'brexit/whatisbrexit.html', context)
 
 def migration(request):
     PageName = 'brexit.migration'
-    faviconText = favicon.TEXT
     context = {'PageName': PageName,  
                'googleAds': __GoogleAdsense,
                'googleAnalytics': __GoogleAnalytics,
-               'faviconText': faviconText }
+               'faviconText': favicon.TEXT,
+               'footer': footer.TEXT }
     return render(request, 'brexit/migration.html', context)
 
 def whatnext(request):
     PageName = 'brexit.migration'
-    faviconText = favicon.TEXT
     context = {'PageName': PageName,  
                'googleAds': __GoogleAdsense,
                'googleAnalytics': __GoogleAnalytics,
-               'faviconText': faviconText }
+               'faviconText': favicon.TEXT,
+               'footer': footer.TEXT }
     return render(request, 'brexit/whatnext.html', context)
 
 def echarts(request):
     PageName = 'brexit.echarts'
-    faviconText = favicon.TEXT
     context = {'PageName': PageName,  
                'googleAds': __GoogleAdsense,
                'googleAnalytics': __GoogleAnalytics,
-               'faviconText': faviconText }
+               'faviconText': favicon.TEXT,
+               'footer': footer.TEXT }
     return render(request, 'brexit/echarts.html', context)
