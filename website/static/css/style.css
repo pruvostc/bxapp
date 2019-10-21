@@ -65,13 +65,17 @@ p.page-footer {
   background-repeat: no-repeat;
   background-size: cover;
 }
-.opaque-50 {
-  opacity: 0.5;
-  filter: alpha(opacity=50); /* For IE8 and earlier */
-  background: rgba(255, 255, 255, 0.5);
+.opaque-80 {
+  opacity: 0.8;
+  filter: alpha(opacity=80); /* For IE8 and earlier */
+  background: rgba(255, 255, 255, 0.8);
 }
-.box {
-  display: flex;
-  flex-flow: column;
-  height: 100%;
+.opaque-100 {
+  opacity: 1;
+  filter: alpha(opacity=100); /* For IE8 and earlier */
+  background: rgba(255, 255, 255, 1);
+}
+.spacer {
+	position: relative;
+  height: 100px;
 }
