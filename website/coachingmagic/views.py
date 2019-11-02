@@ -38,3 +38,13 @@ def index(request):
                'footer': footer.TEXT }
     return render(request, 'coachingmagic/index.html', context)
 
+def emailsent(request):
+    PageName = 'coachingmagic.emailsent'
+    now = datetime.datetime.now()
+    context = {'PageName': PageName, 
+               'time' : now, 
+               'googleAds': __GoogleAdsense,
+               'googleAnalytics': __GoogleAnalytics,
+               'faviconText': favicon.TEXT,
+               'footer': footer.TEXT }
+    return render(request, 'coachingmagic/emailsent.html', context)

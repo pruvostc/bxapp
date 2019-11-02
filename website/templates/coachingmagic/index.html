@@ -7,8 +7,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="news_keywords" content="Brexit, Britain, UK, Europe"/>
-    <meta name="description" content="Brexit update, everything you need to know about brexit today...">
+    <meta name="news_keywords" content="coaching magic, coaching, NLP, self, self-development, yourself, improvement, life"/>
+    <meta name="description" content="Coaching magic, get a professional coach to improve yourself and your life...">
     <meta name="author" content="Christian Pruvost">
 
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -70,14 +70,14 @@
 			<div class="col-6"></div>
 		</div>
 	</div>
-	
+  
 	<div class="row">
 		<div class="col-md-4 mt-3">
 			<h4 class="text-center text-primary">
 				The More You Know
 			</h4>
 			<p>
-				<img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/coachingmagic/woodfire.jpg" height="200px" width="200px">
+				<img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/coachingmagic/woodfire.jpg" height="200px" width="250px">
       </p>
       <p class="text-center">This is your Resources Section. Update your visitors about industry news, or publish relevant announcements about your forum here. You can also use this space to share relevant tips and offer links to external resources.</p>
 		</div>
@@ -86,7 +86,7 @@
         What's new? And now
       </h4>
       <p>
-        <img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/coachingmagic/lakesunset.jpg" height="200px" width="200px">
+        <img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/coachingmagic/lakesunset.jpg" height="200px" width="250px">
       </p>
       <p class="text-center">This is your Resources Section. Update your visitors about industry news, or publish relevant announcements about your forum here. You can also use this space to share relevant tips and offer links to external resources.</p>
     </div>
@@ -95,51 +95,46 @@
         What's trending?
       </h4>
       <p>
-        <img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/coachingmagic/rose.jpg" height="200px" width="200px">
+        <img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/coachingmagic/rose.jpg" height="200px" width="250px">
       </p>
       <p class="text-center">This is your Resources Section. Update your visitors about industry news, or publish relevant announcements about your forum here. You can also use this space to share relevant tips and offer links to external resources.</p>
     </div>
 	</div>
 	<div class="row">
-		<div class="col-md-6">
-			<h3 class="mx-auto">
-				Contact
-			</h3>
-			<div>
-				<form>
-				<div class="form-group">
-          <label for="name">Enter your Name</label>
-          <input type="name" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="name">
-        </div>
-				<div class="form-group">
-			    <label for="email">Email address</label>
-			    <input type="email" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="email">
-			  </div>
-			  <div class="form-group">
-				<label for="subject">Subject</label>
-          <input type="subject" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="subject">
-        </div>
-				<div class="form-group">
-				<textarea class="form-control border border-primary">Enter some Text</textarea>
-				</div>
-				<div class="form-group">
-				<input type="Submit" value="submit" />
-				</div>
-				</form>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<h3 class="mx-auto">
-				No header 
-			</h3>
-			<div>
-				Add another photo
-			</div>
-		</div>
-	</div>
-	{% autoescape off %}{{footer}}{% endautoescape %}
-</div>
+    <div class="col-md-6 mt-3">
+      <h3 class="ml-3">Contact</h3>
+<form name="contactform" action="contact">
+  <div class="form-group ml-3">
+   <input type="name" name="name" placeholder="Enter your Name e.g. John Smith" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="name">
+ </div>
+ <div class="form-group ml-3">
+   <input type="email" name="email" placeholder="youremail@domain.com" address" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="email">
+ </div>
+ <div class="form-group ml-3">
+   <input type="subject" name="subject" placeholder="Enter subject" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="subject">
+ </div>
+ <div class="form-group ml-3">
+   <textarea name="text" placeholder="Enter some text..." class="form-control border border-primary"></textarea>
+ </div>
+ <div class="form-group ml-3">
+   <input type="Submit" value="submit" /> 
+ </div>
+</form>
 
+
+    </div>
+    <div class="col-md-6 mt-3">
+      <h3 class="">No header</h3>
+        <img class="mx-auto d-block img-fluid" alt="Bootstrap Media Preview" src="/static/images/coachingmagic/fieldslife.jpg"/>
+    </div>
+  </div>  
+
+	<!--  footer -->
+	<div class="row">
+	{% autoescape off %}{{footer}}{% endautoescape %}
+	</div>
+</div>
+</div>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/scripts.js"></script>
