@@ -6,6 +6,7 @@ import datetime, os, codecs
 import json
 from utils import favicon
 from utils import footer
+from utils import emailUtil
 
 __GoogleAnalytics = '''
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -36,15 +37,26 @@ def index(request):
                'googleAnalytics': __GoogleAnalytics,
                'faviconText': favicon.TEXT,
                'footer': footer.TEXT }
-    return render(request, 'coachingmagic/index.html', context)
+    return render(request, 'excellingyourself/index.html', context)
 
-def emailsent(request):
-    PageName = 'coachingmagic.emailsent'
+
+def contact(request):
+    fromField = request.POST.get('name', '')
+    email = request.POST.get('email', '')
+    subject = request.POST.get('subject', '')
+    message = request.POST.get('text', '')
+    #aaa= fromField + ' ' + email + ' ' + subject + ' ' + message
+    #aaa=message
+    
+    emailUtil.sendMail(fromField,email,subject,message)
+    
+    PageName = 'excellingyourself.emailsent'
     now = datetime.datetime.now()
     context = {'PageName': PageName, 
                'time' : now, 
+               'subject' : subject,
                'googleAds': __GoogleAdsense,
                'googleAnalytics': __GoogleAnalytics,
                'faviconText': favicon.TEXT,
                'footer': footer.TEXT }
-    return render(request, 'coachingmagic/emailsent.html', context)
+    return render(request, 'excellingyourself/emailsent.html', context)

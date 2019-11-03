@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),
     path('', include('brexit.urls')),
     path('brexit/', include('brexit.urls')),
-    path('coachingmagic/', include('coachingmagic.urls')),
+    path('excellingyourself/', include('excellingyourself.urls')),
     path('legal/privacypolicy/',TemplateView.as_view(template_name='legal/privacypolicy/index.html')),
     path('legal/cookies/',TemplateView.as_view(template_name='legal/cookies/index.html'))
 ]
