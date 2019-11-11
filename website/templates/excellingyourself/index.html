@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+{% autoescape off %}{{googleAnalytics}}{% endautoescape %} 
+    <title>Coaching Magic</title>
+{% autoescape off %}{{googleAds}}{% endautoescape %} 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="news_keywords" content="coaching magic, coaching, NLP, self, self-development, yourself, improvement, life"/>
+    <meta name="description" content="Coaching magic, get a professional coach to improve yourself and your life...">
+    <meta name="author" content="Christian Pruvost">
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="/static/css/style.css" rel="stylesheet">
+{% autoescape off %}{{faviconText}}{% endautoescape %} 
+  </head>
+  <body>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light bg-light ">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span> Menu
+				</button> <a class="navbar-brand" href="#"><img src="/static/images/TheBluePlanet2.png" height="30" alt=""></a>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="navbar-nav">
+					  <li class="nav-item active">
+               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+						<li class="nav-item active">
+							 <a class="nav-link" href="#">About</a>
+						</li>
+						<li class="nav-item">
+							 <a class="nav-link" href="#">NLP</a>
+						</li>
+						<li class="nav-item dropdown">
+							 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">Coaching Magic</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								 <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
+								<div class="dropdown-divider">
+								</div> <a class="dropdown-item" href="#">Separated link</a>
+							</div>
+						</li>
+					</ul>
+					<ul class="navbar-nav ml-md-auto">
+						<li class="nav-item active">
+							 <a class="nav-link" href="#">Link <span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item dropdown">
+							 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown">Dropdown link</a>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+								 <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a>
+								<div class="dropdown-divider">
+								</div> <a class="dropdown-item" href="#">Separated link</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<div class="card-block parallax">
+			<div class="col-6 pt-5 mt-5 opaque-80 align-self-stretch d-flex flex-column flex-fill">
+				<div class="spacer"> </div>
+				<h1 class="text-primary text-center">Excelling<br/>Yourself</h1>
+				<h3 class="text-center text-bold">Let's chat</h3>
+				<div class="spacer"> </div>
+			</div>
+			<div class="col-6"></div>
+		</div>
+	</div>
+  
+	<div class="row">
+		<div class="col-md-4 mt-3">
+			<h4 class="text-center text-primary">
+				The More You Know
+			</h4>
+			<p>
+				<img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/excellingyourself/woodfire.jpg" height="200px" width="250px">
+      </p>
+      <p class="text-center">This is your Resources Section. Update your visitors about industry news, or publish relevant announcements about your forum here. You can also use this space to share relevant tips and offer links to external resources.</p>
+		</div>
+		<div class="col-md-4 mt-3">
+      <h4 class="text-center text-primary">
+        What's new? And now
+      </h4>
+      <p>
+        <img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/excellingyourself/lakesunset.jpg" height="200px" width="250px">
+      </p>
+      <p class="text-center">This is your Resources Section. Update your visitors about industry news, or publish relevant announcements about your forum here. You can also use this space to share relevant tips and offer links to external resources.</p>
+    </div>
+		<div class="col-md-4 mt-3">
+      <h4 class="text-center text-primary">
+        What's trending?
+      </h4>
+      <p>
+        <img class="mr-3 mx-auto d-block rounded-circle" alt="Bootstrap Media Preview" src="/static/images/excellingyourself/rose.jpg" height="200px" width="250px">
+      </p>
+      <p class="text-center">This is your Resources Section. Update your visitors about industry news, or publish relevant announcements about your forum here. You can also use this space to share relevant tips and offer links to external resources.</p>
+    </div>
+	</div>
+	<div class="row">
+    <div class="col-md-6 mt-3">
+      <h3 class="ml-3">Contact</h3>
+<form name="contactform" action="contact" method="POST">{% csrf_token %}
+  <div class="form-group ml-3">
+   <input type="name" name="name" placeholder="Enter your Name e.g. John Smith" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="name">
+ </div>
+ <div class="form-group ml-3">
+   <input type="email" name="email" placeholder="youremail@domain.com" address" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="email">
+ </div>
+ <div class="form-group ml-3">
+   <input type="subject" name="subject" placeholder="Enter subject" class="form-control border-top-0 border-left-0 border-right-0 border-bottom-1 border-primary" id="subject">
+ </div>
+ <div class="form-group ml-3">
+   <textarea name="text" placeholder="Enter some text..." class="form-control border border-primary"></textarea>
+ </div>
+ <div class="form-group ml-3">
+   <input type="Submit" value="submit" /> 
+ </div>
+</form>
+
+
+    </div>
+    <div class="col-md-6 mt-3">
+      <h3 class=""></h3>
+        <img class="mx-auto d-block img-fluid" alt="Bootstrap Media Preview" src="/static/images/excellingyourself/fieldslife.jpg"/>
+    </div>
+  </div>  
+
+	<!--  footer -->
+	<div class="row">
+	{% autoescape off %}{{footer}}{% endautoescape %}
+	</div>
+</div>
+</div>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/scripts.js"></script>
+  </body>
+</html>

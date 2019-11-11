@@ -52,3 +52,30 @@ p.page-footer {
   font-size: .8rem;
   margin: 0;
 }
+.parallax {
+  /* The image used */
+  background-image: url("/static/images/excellingyourself/GoldenMountain.jpg");
+
+  /* Set a specific height */
+  min-height: 500px; 
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.opaque-80 {
+  opacity: 0.8;
+  filter: alpha(opacity=80); /* For IE8 and earlier */
+  background: rgba(255, 255, 255, 0.8);
+}
+.opaque-100 {
+  opacity: 1;
+  filter: alpha(opacity=100); /* For IE8 and earlier */
+  background: rgba(255, 255, 255, 1);
+}
+.spacer {
+	position: relative;
+  height: 100px;
+}
