@@ -48,7 +48,8 @@ urlList = [
              'https://www.ft.com/brexit?format=rss|The Financial Times|13|uk|N',
              'https://blogs.lse.ac.uk/brexit/feed/|The London School of Economics|14|uk|N',
              'https://www.bloomberg.com/professional/feed/|Bloomberg|15|uk|Y',
-             'http://www.politico.eu/section/brexit/feed/|Politico.eu|16|eu|Y'
+             'http://www.politico.eu/section/brexit/feed/|Politico.eu|16|eu|Y',
+             'http://www.independent.co.uk/news/uk/rss|The Independent|17|uk|Y'
          ]
 
 
