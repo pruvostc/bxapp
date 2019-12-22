@@ -49,7 +49,13 @@ urlList = [
              'https://blogs.lse.ac.uk/brexit/feed/|The London School of Economics|14|uk|N',
              'https://www.bloomberg.com/professional/feed/|Bloomberg|15|uk|Y',
              'http://www.politico.eu/section/brexit/feed/|Politico.eu|16|eu|Y',
-             'http://www.independent.co.uk/news/uk/rss|The Independent|17|uk|Y'
+             'http://www.independent.co.uk/news/uk/rss|The Independent|17|uk|Y',
+             'https://globalnlptraining.com/blog/feed|Global NLP Training|20|nlp|N',
+             'https://www.nlpcoaching.com/feed/|NLP Coaching|21|nlp|N',
+             'https://news.google.com/rss/search?q=neuro+linguistic+programming&hl=en-US&gl=US&ceid=US%3Aen|Google NLP News|22|nlp|N',
+             'http://blogs.psychcentral.com/nlp/feed|Mental Health and Psychology Blogs|23|nlp|N',
+             'http://www.innocentminds.com.ng/feed|InnocentMinds|24|nlp|N',
+             'http://nlpschool.com/blog/feed|NLP School|25|nlp|N'
          ]
 
 
@@ -297,6 +303,28 @@ def filter4Brexit(jsonData):
 
     return newjsonData
 
+def filter4NLP(jsonData):
+    FILTER1 = '<img '
+    newjsonData = {}
+    existingList = []
+    #print(json.dumps(jsonData, indent=4, sort_keys=True))
+    for item in jsonData['items']:
+        #print("<>> ",item)
+        if 'title' not in item:
+            continue
+        if ('desc' not in item) or (item['desc']) == None:
+            item['desc'] = '...'
+        # adjust class of images
+        if FILTER1 in item['desc'].lower():
+            item['desc'] = item['desc'].replace(FILTER1, "<img class=\"item_desc\" ")
+        
+        if 'items' in newjsonData:
+            newjsonData['items'].extend([item])
+        else:
+            newjsonData['items'] = [item]
+
+    return newjsonData
+
 def generatedNewsFeed(dirpath, fileList, countrycode):
     generatedJsonData = {}
     global FEEDNAME
@@ -343,7 +371,7 @@ def buildNewsFeed():
         #######################################
         AlljsonData_eu = generatedNewsFeed(dirpath, fileList, "_eu_") # {}
         #print(json.dumps(AlljsonData, indent=4, sort_keys=True))
-        filteredJson = filter4Brexit(AlljsonData_eu)
+        filteredJson = filter4Brexit(AlljsonData_eu) #TODO check if filter is enabled before filtering
         #Sort items by date
         SortedJson = {}
         filteredItems = filteredJson['items']
@@ -373,6 +401,25 @@ def buildNewsFeed():
         if len(SortedJson['items']) > 0:
             # save the content for display, write the result to a file
             outfilehandler = dirpath + 'uk.json'
+            c_file = codecs.open(outfilehandler, "w", encoding="UTF-8") #in order to be able to write bytes to the file the 'b' is required
+            c_file.write(json.dumps(SortedJson,ensure_ascii=False,sort_keys=True,indent=4))
+            c_file.close()
+         
+        #######################################
+        ############### NLP News ###############
+        #######################################
+        AlljsonData_nlp = generatedNewsFeed(dirpath, fileList, "_nlp_") # {}
+        #print(json.dumps(AlljsonData, indent=4, sort_keys=True))
+        filteredJson = filter4NLP(AlljsonData_nlp)
+        #Sort items by date
+        SortedJson = {}
+        filteredItems = filteredJson['items']
+        SortedJson['items'] = sorted(filteredItems, key=lambda i: i['date'], reverse=True)
+        
+        #generate output as JSON file
+        if len(SortedJson['items']) > 0:
+            # save the content for display, write the result to a file
+            outfilehandler = dirpath + 'nlp.json'
             c_file = codecs.open(outfilehandler, "w", encoding="UTF-8") #in order to be able to write bytes to the file the 'b' is required
             c_file.write(json.dumps(SortedJson,ensure_ascii=False,sort_keys=True,indent=4))
             c_file.close()

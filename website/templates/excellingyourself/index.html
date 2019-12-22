@@ -101,6 +101,11 @@
     </div>
 	</div>
 	<div class="row">
+	<div class="col-md-12 mt-3 ml-3 mr-3">
+	{% autoescape off %}{{nlpnews}}{% endautoescape %}
+	</div>
+	</div>
+	<div class="row">
     <div class="col-md-6 mt-3">
       <h3 class="ml-3">Contact</h3>
 <form name="contactform" action="contact" method="POST">{% csrf_token %}

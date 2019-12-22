@@ -33,6 +33,13 @@
 .item_desc{
 	font-size: .7rem;
 }
+img.item_desc {
+	display: block;
+  width: auto;
+  max-width: 400px;
+  height: auto;
+  max-height: 300px;
+}
 .item_origin{
 	font-size: .6rem;
 	color: #008080;

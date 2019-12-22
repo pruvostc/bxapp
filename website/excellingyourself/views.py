@@ -28,11 +28,55 @@ __GoogleAdsense = '''<script async src="//pagead2.googlesyndication.com/pagead/j
   });
 </script>'''
 
+
+def getNLPNews():
+    dirpath = "./"
+    if 'USERNAME' in os.environ and os.environ['USERNAME'] != '':
+        dirpath = "/Users/" + os.environ['USERNAME'] + "/data/"
+    if 'HOME' in os.environ and os.environ['HOME'] != '':
+        dirpath = os.environ['HOME'] + "/data/"
+    CACHE = 'cache/'
+    response = ''
+    if not os.path.isdir(dirpath + CACHE):
+        print("ERROR: Unable to open folder :" + dirpath + CACHE)
+        response = "<div>Oops, Something went wrong! Please come back later...</div>"
+    else:
+        print("Starting to read the file..." + dirpath + 'nlp.json')
+        try:
+            with codecs.open(dirpath + 'nlp.json','r',encoding='utf8') as json_file:
+                result = json.load(json_file)
+            json_file.close()
+            response = ""
+            i = 0
+            for newsitem in result["items"]:
+                i = i + 1
+                date = datetime.datetime.fromtimestamp(newsitem['date']/1000.0)
+                date = date.strftime("%Y-%m-%d %H:%M")
+                if i > 1:
+                    response = response + "<div class=\"divider\"></div>" 
+                response = response + "<div class=\"newsblock\"><div class=\"newsdate\">" + date + ' - </div>' + \
+                "<div class=\"newstitle\">" + \
+                "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
+                '</a></div>' + \
+                "<div class=\"item_origin\">"+ newsitem['feedname'] +'</div>' +\
+                "<div class=\"item_desc\">" + \
+                newsitem['desc'] + "</div>" + \
+                '</div>'
+                
+                
+            #response = response
+        except:
+            response = resultresponse = "<div>Oops, Something went wrong! Please come back later...</div>"
+    
+    return response
+
 def index(request):
     PageName = 'coachingmagic.index'
     now = datetime.datetime.now()
+    nlpNews = getNLPNews()
     context = {'PageName': PageName, 
-               'time' : now, 
+               'time' : now,
+               'nlpnews' : nlpNews,
                'googleAds': __GoogleAdsense,
                'googleAnalytics': __GoogleAnalytics,
                'faviconText': favicon.TEXT,
