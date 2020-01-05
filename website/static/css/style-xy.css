@@ -1,0 +1,199 @@
+# Empty CSS file for your own CSS
+
+# the first class does not seem to be picked up so keep it empty, as-is
+.body {
+}
+.divider {
+	position: relative;
+	height: 20px;
+  left:10%;
+  #  top:10%;
+  #  bottom:10%;
+  border-left:3px solid red;
+}
+.newstitle {
+	display: inline;
+	font-size: .8rem;
+	font-weight: bold;
+}
+.newsblock {
+	border-color: #ff9f80;
+    background-color: #ddf0ff;
+    border-style: inset;
+    border-width: thin;
+    padding: 5px;
+    font-size: .8rem;
+    font-weight: normal;
+}
+.newsdate {
+	display: inline;
+	font-size: .7rem;
+	color: #008080;
+}
+.item_desc{
+	font-size: .7rem;
+}
+img.item_desc {
+	display: block;
+  width: auto;
+  max-width: 400px;
+  height: auto;
+  max-height: 300px;
+}
+.item_origin{
+	font-size: .6rem;
+	color: #008080;
+}
+h1.tbp-header{
+	font-size: 3rem;
+	color: #5a3ec5;
+}
+h1.page-title {
+	font-size: 3rem;
+	color: #5a3ec5;
+}
+header {
+	width: 100%;
+	height: 100vh;
+	background-image: url("/static/images/excellingyourself/GoldenMountain.jpg");
+	background-size: cover;
+}
+header.black {
+	background-color: #000;
+}
+body {
+      font-family: "Helvetica Neue",sans-serif;
+      font-weight: lighter;
+}
+
+.content {
+      width: 94%;
+      margin: 4em auto;
+      font-size: 20px;
+      line-height: 30px;
+      text-align: justify;
+}
+
+.logo {
+      line-height: 60px;
+      position: left;
+      float: left;
+      margin: 16px;
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+      letter-spacing: 2px;
+      width: auto;
+}
+a.Logo {
+      color: #fff;
+      font-weight: bold;
+      font-size: 20px;
+      letter-spacing: 2px;
+}
+
+nav {
+      position: fixed;
+      top: 0px;
+      width: 100%;
+      line-height: 60px;
+}
+
+nav ul {
+      line-height: 60px;
+      list-style: none;
+      background: rgba(0, 0, 0, 0);
+      overflow: hidden;
+      color: #fff;
+      padding: 0;
+      text-align: right;
+      margin: 0;
+      padding-right: 20px;
+      transition: 1s;
+}
+
+nav.black ul {
+      background: #000;
+}
+
+nav ul li {
+      display: inline-block;
+      padding: 16px 40px;
+}
+
+nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 16px;
+}
+.menu {
+  position: relative;
+  float: right;
+}
+.menu-icon {
+      line-height: 60px;
+      width: 100%;
+      background: #000;
+      text-align: right;
+      box-sizing: border-box;
+      padding: 15px 24px;
+      cursor: pointer;
+      color: #fff;
+      display: none;
+}
+
+@media(max-width: 786px) {
+
+      .logo {
+            position: fixed;
+            top: 0;
+            margin-top: 16px;
+      }
+
+      nav ul {
+            max-height: 0px;
+            background: #000;
+      }
+      
+      nav.black ul {
+            background: #000;
+      }
+
+      .showing {
+            max-height: 34em;
+      }
+
+      nav ul li {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 24px;
+            text-align: center;
+      }
+
+      .menu-icon {
+            display: block;
+      }
+
+}
+div.page-footer {
+	padding-left: 5%;
+}
+p.page-footer {
+  font-size: .8rem;
+  margin: 0;
+}
+
+.opaque-80 {
+  opacity: 0.8;
+  filter: alpha(opacity=80); /* For IE8 and earlier */
+  background: rgba(255, 255, 255, 0.8);
+}
+.opaque-100 {
+  opacity: 1;
+  filter: alpha(opacity=100); /* For IE8 and earlier */
+  background: rgba(255, 255, 255, 1);
+}
+.spacer {
+	position: relative;
+  height: 100px;
+}
