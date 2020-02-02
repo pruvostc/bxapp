@@ -58,7 +58,7 @@ def getNLPNews():
                 "<div class=\"newstitle\">" + \
                 "<a href=\"" + newsitem['url'] + "\">" + newsitem['title'] + \
                 '</a></div>' + \
-                "<div class=\"item_origin\">"+ newsitem['feedname'] +'</div>' +\
+                "<!--div class=\"item_origin\">"+ newsitem['feedname'] +'</div-->' +\
                 "<div class=\"item_desc\">" + \
                 newsitem['desc'] + "</div>" + \
                 '</div>'
