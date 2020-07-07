@@ -6,6 +6,9 @@
 .margintop-100 {
 	margin-top: 100px;
 }
+.v-align-middle {
+	vertical-align: middle;
+}
 .divider {
 	position: relative;
 	height: 20px;
@@ -90,7 +93,9 @@ body {
       letter-spacing: 2px;
       width: auto;
 }
-
+img#mainlogo {
+	height: 60px;
+}
 a.Logo {
       color: #000;
       font-weight: bold;
@@ -199,6 +204,14 @@ nav ul li a {
       }
 
 }
+span.size1 {
+	font-size: 1.4rem;
+}
+div#greenbar {
+	background-color: rgb(194,218,195);
+	font-size: 1.5rem;
+	text-align: center;
+}
 div.page-footer {
 	padding-left: 5%;
 }
@@ -206,7 +219,6 @@ p.page-footer {
   font-size: .8rem;
   margin: 0;
 }
-
 .opaque-80 {
   opacity: 0.8;
   filter: alpha(opacity=80); /* For IE8 and earlier */
