@@ -18,6 +18,9 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView
 from django.conf.urls import url
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),
@@ -26,5 +29,5 @@ urlpatterns = [
     path('excellingyourself/', include('excellingyourself.urls')),
     path('legal/privacypolicy/',TemplateView.as_view(template_name='legal/privacypolicy/index.html')),
     path('legal/cookies/',TemplateView.as_view(template_name='legal/cookies/index.html'))
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
