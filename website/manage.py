@@ -8,7 +8,8 @@ if __name__ == '__main__':
     RUNNING_ENV = 'prod' #default
     if (len(sys.argv) > 0 and sys.argv[1] == 'runserver'):
         RUNNING_ENV = 'dev' # running in dev environment
-    os.environ.setdefault('DJANGO_RUNNING_ENV', RUNNING_ENV)
+    os.environ.setdefault('RUNNING_ENV', RUNNING_ENV)
+    print("Running in mode = ", RUNNING_ENV)
     
     try:
         from django.core.management import execute_from_command_line

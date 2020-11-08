@@ -10,7 +10,7 @@ from utils import emailUtil
 
 
 #print("RUNNING_ENV", settings.RUNNING_ENV)
-__myEnv = os.environ["DJANGO_RUNNING_ENV"]
+__myEnv = os.environ["RUNNING_ENV"]
 
 __GoogleAnalytics = '''
 <!-- Global site tag (gtag.js) - Google Analytics -->
