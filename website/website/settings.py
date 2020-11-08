@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import sys
 from website import secretsettings
-from pip._internal.cli.cmdoptions import platform
+#from pip._internal.cli.cmdoptions import platform
 import django
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
