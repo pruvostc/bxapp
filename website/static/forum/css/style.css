@@ -1,0 +1,29 @@
+/*CSS*/
+.emotion-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #fafafa;
+}
+li.emotion-list {
+    float: left;
+}
+li.emotion-list a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}
+li.emotion-list:hover {
+    background-color: #faeb94;
+}
+div.heading {
+    display: inline-block;
+    padding-top: 8px;
+    font-weight: 700;
+}
+.spaced {
+    margin-right:5px;
+}

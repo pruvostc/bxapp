@@ -20,13 +20,18 @@ from django.conf.urls import url
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicons/favicon.ico'))),
     url(r'^robots.txt$', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots_file"),
     path('', include('home.urls')),
     path('brexit/', include('brexit.urls')),
     path('excellingyourself/', include('excellingyourself.urls')),
+    #path('excellingyourself/forum/',TemplateView.as_view(template_name='forum/index.html')),
+    #path('excellingyourself/forum/index.html',TemplateView.as_view(template_name='forum/index.html')),
     path('legal/privacypolicy/',TemplateView.as_view(template_name='legal/privacypolicy/index.html')),
     path('legal/cookies/',TemplateView.as_view(template_name='legal/cookies/index.html'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

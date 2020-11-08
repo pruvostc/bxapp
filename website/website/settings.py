@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import sys
 from website import secretsettings
+from pip._internal.cli.cmdoptions import platform
+import django
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print("Running in mode = ", os.environ["DJANGO_RUNNING_ENV"])
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -24,7 +28,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = secretsettings.secret_k
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if (os.environ["DJANGO_RUNNING_ENV"] == 'prod') else True
 
 ALLOWED_HOSTS = [u'www.theblueplanet.net',u'crispy.pythonanywhere.com',u'127.0.0.1',u'localhost']
 
@@ -126,6 +130,8 @@ MEDIA_ROOT = u'/home/crispy/website/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = u'/home/crispy/website/static'
 STATIC_URL = '/static/'
+FORUM_URL = '/excellingyourself/forum/'
+FORUM_ROOT = u'/home/crispy/website/excellingyourself/forum'
 
 # my STATICFILES_DIRS in an attempt to get 'static' to work on local machine + pythonanywhere
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)

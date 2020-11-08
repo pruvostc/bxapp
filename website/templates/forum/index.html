@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><!-- googleAnalytics goes here -->
+{% autoescape off %}{{googleAnalytics}}{% endautoescape %}
+<meta http-equiv=content-type content="text/html;charset=utf-8">
+<meta http-equiv=X-UA-Compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<!-- auto-adjust base to environment -->
+<!-- base href="{{envUrl}}/static/forum/" -->
+<link rel=icon href="/static/forum/favicon.ico">
+<title>forum</title>
+<link type=text/css rel=stylesheet
+	href=https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css>
+<link rel=stylesheet
+	href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css>
+<link type="text/css" rel="stylesheet" href="/static/forum/css/style.css">
+<link href="/static/forum/js/app.e37a06ed.js" rel="preload" as="script">
+<link href="/static/forum/js/chunk-vendors.4f5c0bc8.js" rel="preload" as="script">
+</head>
+<body>
+	
+	<noscript>
+		<strong>We're sorry but forum doesn't work properly without
+			JavaScript enabled. Please enable it to continue.</strong>
+	</noscript>
+	<div id=app>
+		<app></app>
+	</div>
+	<div id=loading-wrapper>
+		<i class="fa fa-spinner fa-spin"
+			style="font-size: 100px; color: #428bca" id=loading
+			style="display: none;"></i>
+	</div>
+	<script src="/static/forum/js/chunk-vendors.4f5c0bc8.js"></script>
+	<script src="/static/forum/js/app.e37a06ed.js"></script>
+</body>
+</html>

@@ -8,6 +8,10 @@ from utils import favicon
 from utils import footer
 from utils import emailUtil
 
+
+#print("RUNNING_ENV", settings.RUNNING_ENV)
+__myEnv = os.environ["DJANGO_RUNNING_ENV"]
+
 __GoogleAnalytics = '''
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137783783-1"></script>
@@ -71,7 +75,7 @@ def getNLPNews():
     return response
 
 def index(request):
-    PageName = 'coachingmagic.index'
+    PageName = 'excellingyourself.index'
     now = datetime.datetime.now()
     nlpNews = getNLPNews()
     context = {'PageName': PageName, 
@@ -83,6 +87,19 @@ def index(request):
                'footer': footer.TEXT }
     return render(request, 'excellingyourself/index.html', context)
 
+def vueforum(request):
+    PageName = 'excellingyourself.vueforum'
+    now = datetime.datetime.now()
+    envURL = 'http://localhost:8000/' if (__myEnv == 'dev') else 'https://www.theblueplanet.net/'
+    context = {'PageName': PageName, 
+               'time' : now,
+               'envUrl' : envURL,
+               'googleAds': __GoogleAdsense,
+               'googleAnalytics': __GoogleAnalytics,
+               'faviconText': favicon.TEXT,
+               'footer': footer.TEXT }
+    #print(context)
+    return render(request, 'forum/index.html', context)
 
 def contact(request):
     fromField = request.POST.get('name', '')
