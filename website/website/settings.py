@@ -28,7 +28,7 @@ print("Running in mode = ", os.environ["DJANGO_RUNNING_ENV"])
 SECRET_KEY = secretsettings.secret_k
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if (os.environ["DJANGO_RUNNING_ENV"] == 'prod') else True
+DEBUG = True if (os.environ["DJANGO_RUNNING_ENV"] == 'prod') else True
 
 ALLOWED_HOSTS = [u'www.theblueplanet.net',u'crispy.pythonanywhere.com',u'127.0.0.1',u'localhost']
 
