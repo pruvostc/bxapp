@@ -6,7 +6,7 @@ if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'website.settings')
     
     RUNNING_ENV = 'prod' #default
-    if (len(sys.argv) > 0 and sys.argv[1] == 'runserver'):
+    if (len(sys.argv) > 1 and sys.argv[1] == 'runserver'):
         RUNNING_ENV = 'dev' # running in dev environment
     os.environ.setdefault('RUNNING_ENV', RUNNING_ENV)
     print("Running in mode = ", RUNNING_ENV)
