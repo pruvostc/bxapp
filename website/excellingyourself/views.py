@@ -9,8 +9,8 @@ from utils import footer
 from utils import emailUtil
 
 
-#print("RUNNING_ENV", settings.RUNNING_ENV)
 __myEnv = os.environ["RUNNING_ENV"]
+print("RUNNING_ENV", __myEnv)
 
 __GoogleAnalytics = '''
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -90,7 +90,7 @@ def index(request):
 def vueforum(request):
     PageName = 'excellingyourself.vueforum'
     now = datetime.datetime.now()
-    envURL = 'http://localhost:8000/' if (__myEnv == 'dev') else 'https://www.theblueplanet.net/'
+    envURL = 'http://localhost:8000' if (__myEnv == 'dev') else 'https://www.theblueplanet.net'
     context = {'PageName': PageName, 
                'time' : now,
                'envUrl' : envURL,
