@@ -4,7 +4,8 @@ import sys
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'website.settings')
-    
+   
+    # IMPORTANT: There is a different file for setting env. variable in prod (via wsgi.py)
     RUNNING_ENV = 'prod' #default
     if (len(sys.argv) > 1 and sys.argv[1] == 'runserver'):
         RUNNING_ENV = 'dev' # running in dev environment
