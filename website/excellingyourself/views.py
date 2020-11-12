@@ -9,8 +9,8 @@ from utils import footer
 from utils import emailUtil
 
 
-__myEnv = os.environ["RUNNING_ENV"]
-print("RUNNING_ENV", __myEnv)
+__myEnv = os.environ["DJANGO_RUNNING_ENV"]
+print("DJANGO_RUNNING_ENV", __myEnv)
 
 __GoogleAnalytics = '''
 <!-- Global site tag (gtag.js) - Google Analytics -->

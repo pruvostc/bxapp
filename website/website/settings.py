@@ -18,7 +18,7 @@ import django
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print("Running in mode = ", os.environ["RUNNING_ENV"])
+print("Running in mode = ", os.environ["DJANGO_RUNNING_ENV"])
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -28,7 +28,7 @@ print("Running in mode = ", os.environ["RUNNING_ENV"])
 SECRET_KEY = secretsettings.secret_k
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if (os.environ["RUNNING_ENV"] == 'prod') else True
+DEBUG = True if (os.environ["DJANGO_RUNNING_ENV"] == 'prod') else True
 
 ALLOWED_HOSTS = [u'www.theblueplanet.net',u'crispy.pythonanywhere.com',u'127.0.0.1',u'localhost']
 

@@ -17,7 +17,7 @@ if project_home not in sys.path:
     
 # set environment variable to tell django where your settings.py is
 os.environ['DJANGO_SETTINGS_MODULE'] = 'website.settings'
-os.environ['RUNNING_ENV'] = 'prod'
+os.environ['DJANGO_RUNNING_ENV'] = 'prod'
 
 # serve django via WSGI
 from django.core.wsgi import get_wsgi_application
