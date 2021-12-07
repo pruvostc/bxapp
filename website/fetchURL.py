@@ -255,8 +255,8 @@ def fetchData():
             #fetch the latest and create the file if not in cache
             ####NEED TO FETCH THE CONVERTEDURL FOR APPSPOT.COM
             print("CRISPYURL: " + getSignedURL(url))
-            response = fetchURLasString(getSignedURL(url))
-            #response = fetchURLasString(url)
+            #response = fetchURLasString(getSignedURL(url))
+            response = fetchURLasString(url)
             if response is not None:
                 #save it in the cache
                 #output = response.decode()
