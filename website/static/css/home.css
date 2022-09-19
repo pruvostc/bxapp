@@ -26,6 +26,12 @@ body {
 h1 {
 	font-size: 4vw;
 }
+h2 {
+	font-size: 1em;
+}
+h2>a {
+	color: #024C8D;
+}
 float-right {
 	float:right;
 }
@@ -70,7 +76,7 @@ float-left {
   width: 100%;
   height: 0;
   border-radius: 50%;
-  background-color: #60e0ee;
+  background-color: #D4F0F2;
   content: "";
 }
 
